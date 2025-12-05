@@ -5,13 +5,15 @@ import check_somes.Folder_Handling;
 import check_somes.Games_Catalogue;
 import csv_files.CSVReader;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class besmallah extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(besmallah.class.getName());
 
     public besmallah() {
-        initComponents();
+         initComponents();
+           setLocationRelativeTo(null);
     }
 
     /**
@@ -31,7 +33,6 @@ public class besmallah extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -128,14 +129,6 @@ public class besmallah extends javax.swing.JFrame {
             .addGap(0, 24, Short.MAX_VALUE)
         );
 
-        jTextField1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField1.setBorder(null);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -149,11 +142,7 @@ public class besmallah extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -161,9 +150,7 @@ public class besmallah extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(75, 75, 75)
                 .addComponent(jButton1)
-                .addGap(43, 43, 43)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -190,7 +177,7 @@ public class besmallah extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Games_Catalogue catalogue = new Games_Catalogue();
-        // 1. If unfinished game exists → load it
+        // 1. If unfinished game exists -> load it
         if (catalogue.hasUnfinishedGame()) {
             javax.swing.JOptionPane.showMessageDialog(this, "there is unfinished game let's complete first");
             int[][] board = Folder_Handling.get_instance().loadRandomPuzzle("unfinished");
@@ -199,22 +186,23 @@ public class besmallah extends javax.swing.JFrame {
             return;
         }
 
-        // 2. If no unfinished game, check if all difficulties exist
+        // 2. If no unfinished game -> check if all difficulties exist
         if (catalogue.allDifficultiesAvailable()) {
             new choose_difficulty().setVisible(true);
             this.dispose();
+            return;
         }
 
-        // 3. If not all difficulties available → ask user for a solved Sudoku file
+        // 3. If not all difficulties available -> ask user for a solved Sudoku file
         javax.swing.JOptionPane.showMessageDialog(this, "Please select a solved Sudoku file to generate game difficulties.");
-        jTextField1.setOpaque(true);
-        int option = JOptionPane.showConfirmDialog(this, jTextField1, "Enter the path of the solved Sudoku file:", JOptionPane.OK_CANCEL_OPTION);
+        JTextField jjj=new JTextField();
+        int option = JOptionPane.showConfirmDialog(this, jjj, "Enter the path of the solved Sudoku file:", JOptionPane.OK_CANCEL_OPTION);
         if (option != JOptionPane.OK_OPTION) {
             JOptionPane.showMessageDialog(this, "Operation cancelled.");
             return;
         }
 
-        String path = jTextField1.getText().trim();
+        String path = jjj.getText().trim();
         if (!path.endsWith(".csv")) {
             JOptionPane.showMessageDialog(this, "Invalid file type! Please select a .csv file.");
             return;
@@ -222,17 +210,11 @@ public class besmallah extends javax.swing.JFrame {
         int[][] solved = CSVReader.get_instance().read(path);
         generate.get_instance().generateAllPuzzles(solved);
         JOptionPane.showMessageDialog(this, "All difficulty levels generated!");
-
-        // Now load easy by default
-        int[][] board = Folder_Handling.get_instance().loadRandomPuzzle("easy");
-        new the_gaem(board).setVisible(true);
+        
+        new choose_difficulty().setVisible(true);
         this.dispose();
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,6 +250,5 @@ public class besmallah extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
