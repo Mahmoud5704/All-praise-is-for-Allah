@@ -1,4 +1,4 @@
-package check_somes;
+package verifies;
 
 import interface_abstract.Mode;
 import java.util.ArrayList;
