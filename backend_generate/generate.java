@@ -1,9 +1,19 @@
 package backend_generate;
 
+import check_somes.Folder_Handling;
 import java.util.List;
-import check_somes.mod_0;
+import verifies.mod_0;
 
 public class generate {
+
+    private static generate instance = null;
+
+    public synchronized static generate get_instance() {
+        if (instance == null) {
+            instance = new generate();
+        }
+        return instance;
+    }
 
     public void removeRandomCells(int[][] board, int count, RandomPairs rp) {
         List<int[]> list = rp.generateDistinctPairs(count);
@@ -15,32 +25,27 @@ public class generate {
         }
     }
 
-    public int[][] generatePuzzleOnly(int[][] solvedBoard, String dif) {
-
-        int[][] puzzle = new int[9][9];
-
-        // Copy board
-        for (int i = 0; i < 9; i++) {
-            System.arraycopy(solvedBoard[i], 0, puzzle[i], 0, 9);
-        }
-
-        int removeCount=0;
-        if (dif.equalsIgnoreCase("easy")) {
-            removeCount = 10;
-        } else if (dif.equalsIgnoreCase("medium")) {
-            removeCount = 15;
-        } else if (dif.equalsIgnoreCase("hard")) {
-            removeCount = 25;
-        } 
+    public void generateAllPuzzles(int[][] solvedBoard) {
         RandomPairs rp = new RandomPairs();
-        removeRandomCells(puzzle, removeCount, rp);
-
-        return puzzle;
+        String[] difficulties = {"easy", "medium", "hard"};
+        int removing = 10;
+        int[][] puzzle = new int[9][9];
+         for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    puzzle[i][j] = solvedBoard[i][j];
+                }
+            }
+        for (int k=0;k<3;k++) {
+            removing += 5*k; 
+            removeRandomCells(puzzle, removing, rp);
+            Folder_Handling.get_instance().savePuzzle(puzzle, difficulties[k],Folder_Handling.get_instance().getNextFilename(difficulties[k]));
+            
+        }
     }
 
     public void verifySolution(int[][] board) {
-        mod_0 verifier = new mod_0(board);
-        if (!verifier.verify()) {
+        mod_0 mode = new mod_0(board);
+        if (!mode.verify()) {
             throw new RuntimeException("Sudoku board is INVALID or INCOMPLETE!");
         }
     }
