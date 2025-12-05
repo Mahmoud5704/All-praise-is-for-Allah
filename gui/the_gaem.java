@@ -4,34 +4,25 @@ import backend_generate.generate;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
 
 public class the_gaem extends javax.swing.JPanel {
-
-    private int[][] puzzle;
     private JFrame frame;
-    private String foldername;
-    private String filename;
-
-    public the_gaem(int[][] puzzle, String foldername, String filename) {
+    private int[][] puzzle;
+    public the_gaem(int[][] puzzle) {
         initComponents();
-        this.puzzle = puzzle;
-        this.foldername = foldername;
-        this.filename = filename;
+        this.puzzle=puzzle;
         try {
             new generate().verifySolution(puzzle);
             loadPuzzleIntoTable();
-            savePuzzle(puzzle, foldername, filename);
+            //Folder_Handling.get_instance().savePuzzle(puzzle, foldername, filename);
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Invalid Puzzle", JOptionPane.ERROR_MESSAGE);
             frame.dispose();
         }
     }
-
+    
+    
     private void loadPuzzleIntoTable() {
-
         DefaultTableModel model = new DefaultTableModel(10, 9);
         state.setModel(model);
         for (int r = 0; r < 9; r++) {
@@ -45,30 +36,6 @@ public class the_gaem extends javax.swing.JPanel {
                     }
                 }
             }
-        }
-    }
-
-    public void savePuzzle(int[][] board, String foldername, String filename) {
-        try {
-            File dir = new File(foldername);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            File file = new File(dir, filename);
-            try (FileWriter fw = new FileWriter(file)) {
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        fw.write(board[i][j] + "");
-                        if (j < 8) {
-                            fw.write(",");
-                        }
-                    }
-                    fw.write("\n");
-                }
-            }
-            System.out.println("Saved puzzle to: " + file.getAbsolutePath());
-        } catch (IOException ex) {
-            System.out.println("Failed Saved puzzle to the file");
         }
     }
 
@@ -238,7 +205,7 @@ public class the_gaem extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         frame.dispose();
-        new besmallah().setVisible(true);
+        new choose_difficulty().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void updateButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButton1ActionPerformed
