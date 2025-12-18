@@ -4,9 +4,12 @@ import generate_game.generate;
 import Files_handler.Folder_Handling;
 import Files_handler.Games_Catalogue;
 import Files_handler.CSVReader;
+import adapter.ControllerAdapter;
+import control_sided.GameController;
 import exceptions.InvalidSolutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import view_sided.Controllable;
 
 public class besmallah extends javax.swing.JFrame {
 
@@ -173,8 +176,14 @@ public class besmallah extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Controllable facade = new ControllerFacade(new GameController());
+        /* 
+        Controllable Adapter = new ControllerAdapter(new GameController());
         
+        
+        
+        
+        
+        */
         Games_Catalogue catalogue = new Games_Catalogue();
         // 1. If unfinished game exists -> load it
         if (catalogue.hasUnfinishedGame()) {

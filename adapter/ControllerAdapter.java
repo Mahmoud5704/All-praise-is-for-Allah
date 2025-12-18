@@ -18,14 +18,14 @@ public class ControllerAdapter implements Controllable {
         this.controller = controller;
     }
 
-    @Override
+    @Override//adapt tmam bezn allah -<>-
     public boolean[] getCatalog() {
         Catalog catalog = controller.getCatalog();
-        return new boolean[]{ catalog.current, catalog.allModesExist };
+        return new boolean[]{ catalog.isCurrent(), catalog.is_AllLevels_Exist() };
     }
 
-    @Override
-    public int[][] getGame(char level)throws NotFoundException {
+    @Override//adapt tmam bezn allah -<>-
+    public int[][] getGame(char level) throws NotFoundException {
         DifficultyEnum difficulty;
         switch(Character.toLowerCase(level)) {
             case 'e': difficulty = DifficultyEnum.EASY; break;
@@ -35,33 +35,22 @@ public class ControllerAdapter implements Controllable {
             default: difficulty = DifficultyEnum.EASY;
         }
         Game game = controller.getGame(difficulty);
-        return game.board;
+        return game.getBoard();
     }
 
-    @Override
+    @Override//adapt tmam bezn allah -<>-
     public void driveGames(String sourcePath) throws InvalidSolutionException {
         int[][] solved = CSVReader.get_instance().read(sourcePath);
-      //  controller.driveGames(new Game(solved));
+        controller.driveGames(new Game(solved));
     }
 
-    @Override
+  /*
+    @Override//adaot tmam bezn allah 
     public boolean[][] verifyGame(int[][] game) {
-        Game g = new Game(game);
-        String result = controller.verifyGame(g);
-        boolean[][] valid = new boolean[9][9];
-
-        // Default: mark all correct
-        for(int i=0;i<9;i++)
-            for(int j=0;j<9;j++)
-                valid[i][j] = true;
-
-        if(result.startsWith("invalid")) {
-            // Optionally parse result to mark invalid cells
-        }
-        return valid;
+      
     }
     
-    /*
+    
         @Override
         public int[][] solveGame(int[][] game) throws InvalidGame {
 

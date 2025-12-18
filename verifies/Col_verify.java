@@ -3,9 +3,9 @@ import interface_abstract.dublicates;
 import java.util.List;
 import interface_abstract.verifier;
 
-public class Col_verify extends dublicates implements verifier {
+public class col_verify extends dublicates implements verifier {
 
-    public Col_verify(int[][] board) {
+    public col_verify(int[][] board) {
         this.board = board;
     }
 

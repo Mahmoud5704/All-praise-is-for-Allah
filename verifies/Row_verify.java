@@ -3,10 +3,10 @@ import interface_abstract.dublicates;
 import java.util.List;
 import interface_abstract.verifier;
  
-public class Row_verify extends dublicates implements  verifier {
+public class row_verify extends dublicates implements  verifier {
 
 
-    public Row_verify(int[][] board) {
+    public row_verify(int[][] board) {
         this.board = board;
     }
 

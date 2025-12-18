@@ -1,12 +1,21 @@
 package control_sided;
 
-
 public class Game {
-   public  int[][] board;
 
-   public Game(int[][] board) {
-        // Do NOT copy by value — store reference
+    private int[][] board;
+
+    public Game(int[][] board) {
+        // IMPORTANT: DON'T COPY THE BOARD BY VALUE
+        // USE REFERENCES
         this.board = board;
     }
-    // Add methods if needed
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(int[][] board) {
+        this.board = board; // also stores reference
+    }
+
 }

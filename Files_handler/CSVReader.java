@@ -4,7 +4,7 @@ import exceptions.InvalidSolutionException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import verifies.mod_0;
+import verifies.Mod_0;
 
 public class CSVReader {
 
@@ -55,7 +55,7 @@ public class CSVReader {
     }
 
     public void verifySolution(int[][] board) throws InvalidSolutionException {
-        mod_0 mode = new mod_0(board);
+        Mod_0 mode = new Mod_0(board);
         if (!mode.verify()) {
             throw  new InvalidSolutionException("Sudoku board is INVALID or INCOMPLETE!");
         }

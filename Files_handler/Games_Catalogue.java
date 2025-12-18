@@ -4,7 +4,16 @@ import interface_abstract.GameCatalogue;
 import java.io.File;
 
 public class Games_Catalogue implements GameCatalogue {
+    private static Games_Catalogue instance = null;
 
+    public  static Games_Catalogue get_instance() {
+        if (instance == null) {
+            instance = new Games_Catalogue();
+        }
+        return instance;
+    }
+
+    
     @Override
     public boolean hasUnfinishedGame() {
         File folder = new File("unfinished");
