@@ -1,5 +1,4 @@
 package verifies;
-
 import interface_abstract.dublicates;
 import java.util.List;
 import interface_abstract.verifier;
@@ -8,7 +7,6 @@ public class Col_verify extends dublicates implements verifier {
 
     public Col_verify(int[][] board) {
         this.board = board;
-        
     }
 
     public boolean checker(int index) {

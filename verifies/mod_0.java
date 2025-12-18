@@ -3,9 +3,6 @@ package verifies;
 import interface_abstract.Mode;
 import java.util.ArrayList;
 import java.util.List;
-import verifies.Col_verify;
-import verifies.Row_verify;
-import verifies.box_verify;
 
 public class mod_0 implements Mode{
 

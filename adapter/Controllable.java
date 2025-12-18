@@ -1,0 +1,16 @@
+package adapter;
+
+public interface Controllable {
+
+    bool[] getCatalog();
+
+    int[][] getGame(char level) throws NotFoundException;
+
+    void driveGames(String sourcePath) throws SolutionInvalidException;
+
+    bool[][] verifyGame(int[][] game);
+
+    int[][] solveGame(int[][] game) throws InvalidGame;
+
+    void logUserAction(UserAction userAction) throws IOException;
+}

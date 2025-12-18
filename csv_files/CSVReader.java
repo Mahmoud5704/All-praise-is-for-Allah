@@ -1,14 +1,16 @@
 package csv_files;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import verifies.mod_0;
 
 public class CSVReader {
-    
+
     private static CSVReader instance = null;
-     CSVReader() {
+
+    CSVReader() {
     }
-    
 
     public synchronized static CSVReader get_instance() {
         if (instance == null) {
@@ -16,7 +18,6 @@ public class CSVReader {
         }
         return instance;
     }
-
 
     public int[][] read(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -48,8 +49,15 @@ public class CSVReader {
             System.out.println("Error reading file.");
         } catch (NumberFormatException e) {
             System.out.println("csv must contain numbers only!");
-            e.printStackTrace();
         }
         return null;
     }
+
+    public void verifySolution(int[][] board) throws invalidsolution {
+        mod_0 mode = new mod_0(board);
+        if (!mode.verify()) {
+            throw  new invalidsolution("Sudoku board is INVALID or INCOMPLETE!");
+        }
+    }
+
 }
