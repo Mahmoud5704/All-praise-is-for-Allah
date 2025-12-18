@@ -1,5 +1,6 @@
-package csv_files;
+package Files_handler;
 
+import exceptions.InvalidSolutionException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ public class CSVReader {
     CSVReader() {
     }
 
-    public synchronized static CSVReader get_instance() {
+    public static CSVReader get_instance() {
         if (instance == null) {
             instance = new CSVReader();
         }
@@ -53,10 +54,10 @@ public class CSVReader {
         return null;
     }
 
-    public void verifySolution(int[][] board) throws invalidsolution {
+    public void verifySolution(int[][] board) throws InvalidSolutionException {
         mod_0 mode = new mod_0(board);
         if (!mode.verify()) {
-            throw  new invalidsolution("Sudoku board is INVALID or INCOMPLETE!");
+            throw  new InvalidSolutionException("Sudoku board is INVALID or INCOMPLETE!");
         }
     }
 

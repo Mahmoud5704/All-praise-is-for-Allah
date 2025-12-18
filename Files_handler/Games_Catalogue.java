@@ -1,4 +1,4 @@
-package Folder_handler;
+package Files_handler;
 
 import interface_abstract.GameCatalogue;
 import java.io.File;

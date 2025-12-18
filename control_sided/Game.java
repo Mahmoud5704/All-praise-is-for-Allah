@@ -1,11 +1,10 @@
-
-package adapter;
+package control_sided;
 
 
 public class Game {
-    int[][] board;
+   public  int[][] board;
 
-    Game(int[][] board) {
+   public Game(int[][] board) {
         // Do NOT copy by value — store reference
         this.board = board;
     }

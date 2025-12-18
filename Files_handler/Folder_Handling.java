@@ -1,4 +1,4 @@
-package Folder_handler;
+package Files_handler;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,7 +10,7 @@ public class Folder_Handling {// make instance better
 
     private static Folder_Handling instance = null;
 
-    public synchronized static Folder_Handling get_instance() {
+    public  static Folder_Handling get_instance() {
         if (instance == null) {
             instance = new Folder_Handling();
         }

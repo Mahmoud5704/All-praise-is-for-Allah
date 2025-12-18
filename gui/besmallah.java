@@ -1,9 +1,10 @@
 package gui;
 
 import generate_game.generate;
-import Folder_handler.Folder_Handling;
-import Folder_handler.Games_Catalogue;
-import csv_files.CSVReader;
+import Files_handler.Folder_Handling;
+import Files_handler.Games_Catalogue;
+import Files_handler.CSVReader;
+import exceptions.InvalidSolutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -172,6 +173,8 @@ public class besmallah extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Controllable facade = new ControllerFacade(new GameController());
+        
         Games_Catalogue catalogue = new Games_Catalogue();
         // 1. If unfinished game exists -> load it
         if (catalogue.hasUnfinishedGame()) {
@@ -209,7 +212,7 @@ public class besmallah extends javax.swing.JFrame {
             try {
                 CSVReader.get_instance().verifySolution(solved);
                 break; 
-            } catch (RuntimeException ex) {
+            } catch (InvalidSolutionException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
         }

@@ -1,6 +1,6 @@
 package generate_game;
 
-import Folder_handler.Folder_Handling;
+import Files_handler.Folder_Handling;
 import java.util.List;
 
 public class generate {
