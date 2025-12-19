@@ -1,7 +1,7 @@
 package adapter;
 
-import exceptions.InvalidSolutionException;
-import exceptions.NotFoundException;
+import Exception.InvalidSolutionException;
+import Exception.NotFoundException;
 
 public interface Controllable {
 

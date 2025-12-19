@@ -1,6 +1,7 @@
 package verifies;
-import java.util.List;
  
+import java.util.ArrayList;
+
 public class row_verify extends dublicates implements  verifier {
 
 
@@ -13,7 +14,7 @@ public class row_verify extends dublicates implements  verifier {
         int[] r = board[index];
         boolean ok = true;
         for (int x = 1; x <= 9; x++) {
-            List<Integer> dups = find_dub(r, x);
+            ArrayList<Integer> dups = find_dub(r, x);
             if (dups.size() > 1) {
                 String s = "Duplicates of " + x + " in ROW " + index + " at cols: " + dups;
                 ok = false;

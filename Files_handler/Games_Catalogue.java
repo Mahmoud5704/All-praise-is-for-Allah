@@ -2,7 +2,8 @@ package Files_handler;
 
 import control_sided.DifficultyEnum;
 import java.io.File;
-
+   
+//Singelton Design Pattern
 public class Games_Catalogue implements GameCatalogue {
     private static Games_Catalogue instance = null;
 

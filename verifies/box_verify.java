@@ -1,6 +1,5 @@
 package verifies;
 
-import java.util.List;
 import java.util.ArrayList;
 
 public class box_verify extends dublicates implements  verifier {
@@ -18,7 +17,7 @@ public class box_verify extends dublicates implements  verifier {
         boolean ok = true;
 
         for (int x = 1; x <= 9; x++) {
-            List<String> positions = new ArrayList<>();
+            ArrayList<String> positions = new ArrayList<>();
             int count = 0;
 
             for (int i = 0; i < 3; i++) {

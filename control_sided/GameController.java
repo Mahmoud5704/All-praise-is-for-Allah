@@ -3,9 +3,9 @@ package control_sided;
 import Files_handler.CSVReader;
 import Files_handler.Folder_Handling;
 import Files_handler.Games_Catalogue;
-import exceptions.InvalidSolutionException;
-import exceptions.NotFoundException;
-import generate_game.generate;
+import Exception.InvalidSolutionException;
+import Exception.NotFoundException;
+import Generate_Game.generate;
 
 
 

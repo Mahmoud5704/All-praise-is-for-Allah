@@ -1,4 +1,4 @@
-package exceptions;
+package Exception;
 public class InvalidSolutionException extends Exception {
 
     public InvalidSolutionException(String msg) {

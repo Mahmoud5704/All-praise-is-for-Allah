@@ -1,7 +1,7 @@
 package control_sided;
 
-import exceptions.InvalidSolutionException;
-import exceptions.NotFoundException;
+import Exception.InvalidSolutionException;
+import Exception.NotFoundException;
 
 public interface Viewable {
 

@@ -1,13 +1,13 @@
 package Files_handler;
 
-import exceptions.InvalidSolutionException;
+import Exception.InvalidSolutionException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import verifies.Mod_0;
 
 public class CSVReader {
-
+    //Singelton Design Pattern
     private static CSVReader instance = null;
 
     CSVReader() {

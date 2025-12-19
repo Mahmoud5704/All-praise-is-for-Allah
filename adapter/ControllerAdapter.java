@@ -5,10 +5,10 @@ import control_sided.DifficultyEnum;
 import Files_handler.CSVReader;
 import control_sided.Game;
 import control_sided.Viewable;
-import exceptions.InvalidSolutionException;
-import exceptions.NotFoundException;
+import Exception.InvalidSolutionException;
+import Exception.NotFoundException;
 
-
+//Adapter Design Pattern
 public class ControllerAdapter implements Controllable {
 
     private  Viewable controller;

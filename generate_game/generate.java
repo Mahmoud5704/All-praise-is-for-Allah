@@ -1,8 +1,9 @@
-package generate_game;
+package Generate_Game;
 
 import Files_handler.Folder_Handling;
 import java.util.List;
 
+//Singelton Design Pattern
 public class generate {
 
     private static generate instance = null;
@@ -29,18 +30,17 @@ public class generate {
         String[] difficulties = {"easy", "medium", "hard"};
         int removing = 10;
         int[][] puzzle = new int[9][9];
-         for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    puzzle[i][j] = solvedBoard[i][j];
-                }
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                puzzle[i][j] = solvedBoard[i][j];
             }
-        for (int k=0;k<3;k++) {
-            removing += 5*k; 
+        }
+        for (int k = 0; k < 3; k++) {
+            removing += 5 * k;
             removeRandomCells(puzzle, removing, rp);
-            Folder_Handling.get_instance().savePuzzle(puzzle, difficulties[k],Folder_Handling.get_instance().getNextFilename(difficulties[k]));
-            
+            Folder_Handling.get_instance().savePuzzle(puzzle, difficulties[k], Folder_Handling.get_instance().getNextFilename(difficulties[k]));
+
         }
     }
-
 
 }

@@ -1,4 +1,4 @@
-package generate_game;
+package Generate_Game;
 
 import java.util.ArrayList;
 import java.util.HashSet;

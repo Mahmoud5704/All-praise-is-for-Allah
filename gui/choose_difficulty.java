@@ -1,7 +1,7 @@
 package gui;
 
 import adapter.Controllable;
-import exceptions.NotFoundException;
+import Exception.NotFoundException;
 
 public class choose_difficulty extends javax.swing.JFrame {
 

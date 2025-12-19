@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Folder_Handling {// make instance better
+public class Folder_Handling {
+    //Singelton Design Pattern
 
     private static Folder_Handling instance = null;
 

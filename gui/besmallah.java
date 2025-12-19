@@ -3,8 +3,8 @@ package gui;
 import adapter.Controllable;
 import adapter.ControllerAdapter;
 import control_sided.GameController;
-import exceptions.InvalidSolutionException;
-import exceptions.NotFoundException;
+import Exception.InvalidSolutionException;
+import Exception.NotFoundException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -174,7 +174,6 @@ public class besmallah extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         Controllable Adapter = new ControllerAdapter(new GameController());
-
         boolean[] catalog = Adapter.getCatalog(); // [current, allModesExist]
         boolean currentGame = catalog[0];
         boolean allDifficulties = catalog[1];
