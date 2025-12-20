@@ -15,13 +15,14 @@ public class the_gaem extends javax.swing.JPanel {
     }
 
     private void loadPuzzleIntoTable() {
-        DefaultTableModel model = new DefaultTableModel(10, 9);
+        DefaultTableModel model = new DefaultTableModel(9,9);
         state.setModel(model);
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
-                int tableRow = r + 1;
+                int tableRow = r;////////////////////
                 if (c < 9) {
                     if (puzzle[r][c] != 0) {
+                        state.setRowHeight(30);
                         state.setValueAt(puzzle[r][c], tableRow, c);
                     } else {
                         state.setValueAt("", tableRow, c);
@@ -68,7 +69,7 @@ public class the_gaem extends javax.swing.JPanel {
 
         state.setBackground(new java.awt.Color(102, 102, 102));
         state.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        state.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        state.setFont(new java.awt.Font("Segoe UI", 1, 21)); // NOI18N
         state.setForeground(new java.awt.Color(255, 255, 255));
         state.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
