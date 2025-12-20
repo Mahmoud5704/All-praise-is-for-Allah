@@ -8,13 +8,14 @@ import Exception.NotFoundException;
 import Generate_Game.generate;
 
 
-
+// speak and play with the backend  --->>>> control layer <<<<-----
 public class GameController implements Viewable {
 
     @Override
     public Catalog getCatalog() {
-        boolean current = Games_Catalogue.get_instance().hasUnfinishedGame();
-        boolean allModesExist = Games_Catalogue.get_instance().allDifficultiesAvailable();
+        String[] levels = {DifficultyEnum.easy.toString(), DifficultyEnum.medium.toString(), DifficultyEnum.hard.toString()};
+        boolean current = Games_Catalogue.get_instance().hasUnfinishedGame(DifficultyEnum.incomplete.toString());
+        boolean allModesExist = Games_Catalogue.get_instance().allDifficultiesAvailable(levels);
         return new Catalog(current, allModesExist);
     }
 
@@ -35,7 +36,8 @@ public class GameController implements Viewable {
         } catch (RuntimeException ex) {
             throw new InvalidSolutionException("Invalid Sudoku solution: " + ex.getMessage());
         }
-        generate.get_instance().generateAllPuzzles(game.getBoard());
+        String[] levels = {DifficultyEnum.easy.toString(), DifficultyEnum.medium.toString(), DifficultyEnum.hard.toString()};
+        generate.get_instance().generateAllPuzzles(game.getBoard(),levels);
     }
     
 /*

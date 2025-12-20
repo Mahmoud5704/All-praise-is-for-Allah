@@ -27,11 +27,11 @@ public class ControllerAdapter implements Controllable {
     public int[][] getGame(char level) throws NotFoundException {
         DifficultyEnum difficulty;
         switch(Character.toLowerCase(level)) {
-            case 'e': difficulty = DifficultyEnum.EASY; break;
-            case 'm': difficulty = DifficultyEnum.MEDIUM; break;
-            case 'h': difficulty = DifficultyEnum.HARD; break;
-            case 'i': difficulty = DifficultyEnum.INCOMPLETE; break;
-            default: difficulty = DifficultyEnum.EASY;
+            case 'e': difficulty = DifficultyEnum.easy; break;
+            case 'm': difficulty = DifficultyEnum.medium; break;
+            case 'h': difficulty = DifficultyEnum.hard; break;
+            case 'i': difficulty = DifficultyEnum.incomplete; break;
+            default: difficulty = DifficultyEnum.easy;
         }
         Game game = controller.getGame(difficulty);
         return game.getBoard();
@@ -60,3 +60,8 @@ public class ControllerAdapter implements Controllable {
         }
     */
 }
+/*
+The Game and Catalog classes, and DifficultyEnum must only be defined and used on
+the controller side and not the viewer, however, UserAction should be defined and
+used only on viewer side.
+*/
