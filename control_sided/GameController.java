@@ -6,7 +6,8 @@ import Files_handler.Games_Catalogue;
 import Exception.InvalidSolutionException;
 import Exception.NotFoundException;
 import Generate_Game.generate;
-
+import java.util.ArrayList;
+import verifies.Mod_0;
 
 // speak and play with the backend  --->>>> control layer <<<<-----
 public class GameController implements Viewable {
@@ -37,15 +38,30 @@ public class GameController implements Viewable {
             throw new InvalidSolutionException("Invalid Sudoku solution: " + ex.getMessage());
         }
         String[] levels = {DifficultyEnum.easy.toString(), DifficultyEnum.medium.toString(), DifficultyEnum.hard.toString()};
-        generate.get_instance().generateAllPuzzles(game.getBoard(),levels);
-    }
-    
-/*
-    @Override
-    public String verifyGame(Game game) {
-   
+        generate.get_instance().generateAllPuzzles(game.getBoard(), levels);
     }
 
+    @Override
+
+    public String verifyGame(Game game) {
+        int[][] b = game.getBoard();
+        Mod_0 mod = new Mod_0(b);
+        String all=mod.verify();
+        if (!all.isEmpty()) {
+            return "invalid " + all;
+        }
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (b[i][j] == 0) {
+                    return "incomplete";
+                }
+            }
+        }
+
+        return "valid";
+    }
+    /*
     @Override
     public int[] solveGame(Game game) {
       
@@ -55,5 +71,5 @@ public class GameController implements Viewable {
     public void logUserAction(String action) {
         
     }
-*/
+     */
 }

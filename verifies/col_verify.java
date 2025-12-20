@@ -8,20 +8,20 @@ public class col_verify extends dublicates implements verifier {
         this.board = board;
     }
 
-    public boolean checker(int index) {
+    public String checker(int index) {
         int[] c = new int[9];
         for (int i = 0; i < 9; i++) {
             c[i] = board[i][index];
         }
-        boolean ok = true;
+        String s = "";
         for (int x = 1; x <= 9; x++) {
             ArrayList<Integer> dups = find_dub(c, x);
             if (dups.size() > 1) {
-                String s = "Duplicates of " + x + " in col " + index + " at rows: " + dups;
-                ok = false;
+                for (int ss : dups) {
+                    s += ss + "," + index+" ";
+                }
             }
         }
-        return ok;
+        return s;
     }
-
 }

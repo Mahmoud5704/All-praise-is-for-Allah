@@ -1,25 +1,30 @@
 package gui;
 
+import adapter.Controllable;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class the_gaem extends javax.swing.JPanel {
 
     private JFrame frame;
     private int[][] puzzle;
+    private Controllable Adapter;
 
-    public the_gaem(int[][] puzzle) {
+    public the_gaem(int[][] puzzle, Controllable Adapter) {
         initComponents();
         this.puzzle = puzzle;
         loadPuzzleIntoTable();
+        this.Adapter = Adapter;
     }
 
     private void loadPuzzleIntoTable() {
-        DefaultTableModel model = new DefaultTableModel(9,9);
+        DefaultTableModel model = new DefaultTableModel(9, 9);
         state.setModel(model);
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
-                int tableRow = r;////////////////////
+                int tableRow = r;
+                ////////////////////
                 if (c < 9) {
                     if (puzzle[r][c] != 0) {
                         state.setRowHeight(30);
@@ -150,7 +155,39 @@ public class the_gaem extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        int[][] board = new int[9][9];
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
 
+                Object value = state.getValueAt(r, c);
+                try {
+                    board[r][c] = Integer.parseInt(value.toString());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this,
+                            "you must complete first",
+                            "Invalid Input",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+        }
+        boolean[][] b = Adapter.verifyGame(board);
+        boolean hasFalse = false;
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                if (!b[r][c]) {
+                    hasFalse = true;
+                }
+            }
+        }
+        if(hasFalse)
+            new verifyy(board, b).setVisible(true);
+        else{
+             JOptionPane.showMessageDialog(this,
+                            "bravo you are abkari!",
+                            "Valid",
+                            JOptionPane.PLAIN_MESSAGE);
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
