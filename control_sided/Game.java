@@ -17,4 +17,5 @@ public class Game {
     public void setBoard(int[][] board) {
         this.board = board; // also stores reference
     }
+
 }

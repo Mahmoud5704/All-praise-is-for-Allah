@@ -187,7 +187,7 @@ public class besmallah extends javax.swing.JFrame {
             } catch (NotFoundException ex) {
                 System.getLogger(besmallah.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             }
-            new the_gaem(board,Adapter).setVisible(true);
+            new The_game(board).setVisible(true);
             this.dispose();
             return;
         }

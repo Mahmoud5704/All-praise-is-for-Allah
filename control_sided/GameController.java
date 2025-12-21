@@ -6,17 +6,15 @@ import Files_handler.Games_Catalogue;
 import Exception.InvalidSolutionException;
 import Exception.NotFoundException;
 import Generate_Game.generate;
-import java.util.ArrayList;
-import verifies.Mod_0;
 
-// speak and play with the backend  --->>>> control layer <<<<-----
+
+
 public class GameController implements Viewable {
 
     @Override
     public Catalog getCatalog() {
-        String[] levels = {DifficultyEnum.easy.toString(), DifficultyEnum.medium.toString(), DifficultyEnum.hard.toString()};
-        boolean current = Games_Catalogue.get_instance().hasUnfinishedGame(DifficultyEnum.incomplete.toString());
-        boolean allModesExist = Games_Catalogue.get_instance().allDifficultiesAvailable(levels);
+        boolean current = Games_Catalogue.get_instance().hasUnfinishedGame();
+        boolean allModesExist = Games_Catalogue.get_instance().allDifficultiesAvailable();
         return new Catalog(current, allModesExist);
     }
 
@@ -37,42 +35,22 @@ public class GameController implements Viewable {
         } catch (RuntimeException ex) {
             throw new InvalidSolutionException("Invalid Sudoku solution: " + ex.getMessage());
         }
-        String[] levels = {DifficultyEnum.easy.toString(), DifficultyEnum.medium.toString(), DifficultyEnum.hard.toString()};
-        generate.get_instance().generateAllPuzzles(game.getBoard(), levels);
+        generate.get_instance().generateAllPuzzles(game.getBoard());
     }
-
+    
     @Override
-
     public String verifyGame(Game game) {
-        int[][] b = game.getBoard();
-        Mod_0 mod = new Mod_0(b);
-        String all=mod.verify();
-        if (!all.isEmpty()) {
-            return "invalid " + all;
-        }
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (b[i][j] == 0) {
-                    return "incomplete";
-                }
-            }
-        }
-
-        return "valid";
+        return null; //TODO
     }
-    /*
+
     @Override
     public int[] solveGame(Game game) {
-      
+      return null; //TODO
     }
-     */
+
     @Override
-    public void logUserAction(String action) throws IOException {
-    Folder_Handling.get_instance().logUserAction(action);
+    public void logUserAction(String action) {
+        
     }
-     @Override
-    public void undo(Game game) throws IOException {
-    Folder_Handling.get_instance().undo(game.getBoard());
-    }
+
 }

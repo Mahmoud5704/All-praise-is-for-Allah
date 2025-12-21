@@ -217,7 +217,7 @@ public class choose_difficulty extends javax.swing.JFrame {
         int[][] board;
         try {
             board = Adapter.getGame(c);
-            new the_gaem(board, Adapter).setVisible(true);
+            new The_game(board).setVisible(true);
             this.dispose();
         } catch (NotFoundException ex) {
             //--------------------------

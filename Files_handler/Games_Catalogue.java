@@ -1,5 +1,6 @@
 package Files_handler;
 
+import control_sided.DifficultyEnum;
 import java.io.File;
 
 //Singelton Design Pattern
@@ -15,8 +16,8 @@ public class Games_Catalogue implements GameCatalogue {
     }
 
     @Override
-    public boolean hasUnfinishedGame(String level) {
-        File folder = new File(level);
+    public boolean hasUnfinishedGame() {
+        File folder = new File(DifficultyEnum.INCOMPLETE.toString().toLowerCase());
         if (!folder.exists()) {
             return false;
         }
@@ -26,9 +27,12 @@ public class Games_Catalogue implements GameCatalogue {
     }
 
     @Override
-    public boolean allDifficultiesAvailable(String[] levels) {
-        for (String folderName :levels) {
-        
+    public boolean allDifficultiesAvailable() {
+        for (DifficultyEnum diff : DifficultyEnum.values()) {
+            String folderName = diff.name().toLowerCase();
+            if (folderName.equals(DifficultyEnum.INCOMPLETE.toString().toLowerCase())) {
+                continue;
+            }
             File folder = new File(folderName);
             if (!folder.exists()) {
                 return false;
