@@ -96,4 +96,8 @@ public class ControllerAdapter implements Controllable {
         public void logUserAction(UserAction userAction) {
         }
      */
+        @Override
+        public void undo(int[][] board) throws IOException {
+        controller.undo(new Game(board));
+}
 }
