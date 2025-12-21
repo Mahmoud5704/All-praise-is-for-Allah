@@ -66,10 +66,13 @@ public class GameController implements Viewable {
     public int[] solveGame(Game game) {
       
     }
-
-    @Override
-    public void logUserAction(String action) {
-        
-    }
      */
+    @Override
+    public void logUserAction(String action) throws IOException {
+    Folder_Handling.get_instance().logUserAction(action);
+    }
+     @Override
+    public void undo(Game game) throws IOException {
+    Folder_Handling.get_instance().undo(game.getBoard());
+    }
 }
