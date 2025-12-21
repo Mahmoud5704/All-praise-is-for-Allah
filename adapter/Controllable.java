@@ -19,4 +19,6 @@ public interface Controllable {
     void logUserAction(UserAction userAction) throws IOException;
     
 */
+    //El satr da bas ya Zeyad
+    public void undo(int[][] board) throws IOException;
 }
