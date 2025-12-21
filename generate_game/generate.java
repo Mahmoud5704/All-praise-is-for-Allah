@@ -24,16 +24,11 @@ public class generate {
 
     }
 
-    public void generateAllPuzzles(int[][] solvedBoard) {
+    public void generateAllPuzzles(int[][] solvedBoard, String[] levels) {
         RandomPairs rp = new RandomPairs();
         int removing = 10;
         int k = 0;
-        for (DifficultyEnum diff : DifficultyEnum.values()) {
-
-            String diff_lower = diff.name().toLowerCase();
-            if (diff_lower.equals(DifficultyEnum.INCOMPLETE.toString().toLowerCase())) {
-                continue;
-            }
+        for (String diff :levels) {
             int[][] puzzle = new int[9][9];
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
@@ -43,7 +38,7 @@ public class generate {
             removing += 5 * (k++);
 
             removeRandomCells(puzzle, removing, rp);
-            Folder_Handling.get_instance().savePuzzle(puzzle, diff_lower, Folder_Handling.get_instance().getNextFilename(diff_lower));
+            Folder_Handling.get_instance().savePuzzle(puzzle, diff, Folder_Handling.get_instance().getNextFilename(diff));
         }
     }
 

@@ -7,12 +7,12 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
-public class The_game extends javax.swing.JPanel {
+public class The_gaem extends javax.swing.JPanel {
 
     private JFrame frame;
     private int[][] puzzle;
     private boolean loading = true;
-    public The_game(int[][] puzzle) {
+    public The_gaem(int[][] puzzle) {
         initComponents();
         this.puzzle = puzzle;
         loadPuzzleIntoTable();

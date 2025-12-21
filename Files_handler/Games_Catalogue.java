@@ -16,8 +16,8 @@ public class Games_Catalogue implements GameCatalogue {
     }
 
     @Override
-    public boolean hasUnfinishedGame() {
-        File folder = new File(DifficultyEnum.INCOMPLETE.toString().toLowerCase());
+    public boolean hasUnfinishedGame(String level) {
+        File folder = new File(level);
         if (!folder.exists()) {
             return false;
         }
@@ -27,12 +27,9 @@ public class Games_Catalogue implements GameCatalogue {
     }
 
     @Override
-    public boolean allDifficultiesAvailable() {
-        for (DifficultyEnum diff : DifficultyEnum.values()) {
-            String folderName = diff.name().toLowerCase();
-            if (folderName.equals(DifficultyEnum.INCOMPLETE.toString().toLowerCase())) {
-                continue;
-            }
+    public boolean allDifficultiesAvailable(String[] levels) {
+        for (String folderName :levels) {
+        
             File folder = new File(folderName);
             if (!folder.exists()) {
                 return false;

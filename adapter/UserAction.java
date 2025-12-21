@@ -17,7 +17,7 @@ public class UserAction {
     @Override
     public String toString(){
         String del = ", ";
-        return "(" + column + del + row + del + val + del + prev + ")";
+        return "(" + row + del + column + del + val + del + prev + ")";
     }
     public int[][] getNewBoard(){
         System.out.println("row: " + row);

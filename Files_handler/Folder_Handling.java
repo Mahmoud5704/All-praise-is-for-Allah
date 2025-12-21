@@ -1,8 +1,14 @@
 package Files_handler;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -75,8 +81,8 @@ public class Folder_Handling {
             return null;
         }
 
-        File chosen = files[new Random().nextInt(files.length)];//using  random is new here ????
-
+//        File chosen = files[new Random().nextInt(files.length)];//using  random is new here ????
+        File chosen = 
         int[][] board = new int[9][9];
 
         try (Scanner sc = new Scanner(chosen)) {
@@ -87,9 +93,76 @@ public class Folder_Handling {
                 }
             }
         } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println(chosen.getName());
             System.out.println("Failed Saved puzzle to the file");
         }
         return board;
     }
 
+
+    
+    //AHO YA ZEYAD EL GOZ2 BTA3Y MN AWEL HENA lel a5er
+    //method to save the moves in a log file (used for the undo button)
+    public void logUserAction(String action) throws IOException {
+    Path logPath = Paths.get("incomplete", "undo.log");
+
+    Files.createDirectories(logPath.getParent());
+
+    try (BufferedWriter writer = Files.newBufferedWriter(
+            logPath,
+            StandardOpenOption.CREATE,
+            StandardOpenOption.APPEND)) {
+
+        writer.write(action);
+        writer.newLine();
+    }
+}
+    //method to do the undo logic
+    public void undo(int[][] board) throws IOException {
+    File logFile = new File("incomplete", "undo.log");
+    if (!logFile.exists()) return;
+
+    ArrayList<String> lines = new ArrayList<>();
+    try (Scanner sc = new Scanner(logFile)) {
+        while (sc.hasNextLine()) {
+            lines.add(sc.nextLine());
+        }
+    }
+
+    if (lines.isEmpty()) return;
+
+    String last = lines.remove(lines.size() - 1);
+
+    last = last.replace("(", "").replace(")", "");
+    String[] parts = last.split(", ");
+
+    int x = Integer.parseInt(parts[0]);
+    int y = Integer.parseInt(parts[1]);
+    int prev = Integer.parseInt(parts[3]);
+
+    board[x][y] = prev;
+
+    try (FileWriter fw = new FileWriter(logFile)) {
+        for (String line : lines) {
+            fw.write(line + "\n");
+        }
+    }
+}
+    //method temsa7 el current game
+    public void deleteCurrentGame() {
+    File folder = new File("incomplete");
+    if (!folder.exists()) return;
+
+    File logFile = new File(folder, "undo.log");
+    File currentGame = new File(folder, "current.csv");
+
+    if (logFile.exists()) {
+        logFile.delete();
+    }
+
+    if (currentGame.exists()) {
+        currentGame.delete();
+    }
+}
 }
