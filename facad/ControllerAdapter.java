@@ -1,5 +1,6 @@
-package adapter;
+package facad;
 
+import Exception.InvalidGame;
 import control_sided.Catalog;
 import control_sided.DifficultyEnum;
 import Files_handler.CSVReader;
@@ -7,6 +8,8 @@ import control_sided.Game;
 import control_sided.Viewable;
 import Exception.InvalidSolutionException;
 import Exception.NotFoundException;
+import Files_handler.Folder_Handling;
+import java.io.IOException;
 
 //Adapter Design Pattern
 public class ControllerAdapter implements Controllable {
@@ -84,16 +87,26 @@ public class ControllerAdapter implements Controllable {
 
         return result;
     }
-
-    /*
     
         @Override
         public int[][] solveGame(int[][] game) throws InvalidGame {
-
+            int[] correctPermutation = controller.solveGame(new Game(game));
+            int[][] solution = game.clone();
+            for(int i = 0, k = 0; i < 9; i++){
+                for(int j = 0; j < 9; j++){
+                    if(solution[i][j] == 0){
+                        solution[i][j] = correctPermutation[k++];
+                    }
+                }
+            }
+            return solution;
         }
 
         @Override
-        public void logUserAction(UserAction userAction) {
+        public void logUserAction(UserAction userAction) throws IOException{
+            controller.logUserAction(userAction.toString());
+            Folder_Handling db = Folder_Handling.get_instance();
+            System.out.println("calling the database...");
+            db.savePuzzle(userAction.getNewBoard(), DifficultyEnum.incomplete.name().toLowerCase(), "current.csv");
         }
-     */
 }

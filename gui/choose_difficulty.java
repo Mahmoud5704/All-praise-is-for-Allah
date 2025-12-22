@@ -1,17 +1,18 @@
 package gui;
 
-import adapter.Controllable;
+import facad.Controllable;
 import Exception.NotFoundException;
+import facad.ControllerFacadInterface;
 
 public class choose_difficulty extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(besmallah.class.getName());
-    private Controllable Adapter;
+    private ControllerFacadInterface facad;
 
-    public choose_difficulty(Controllable Adapter) {
+    public choose_difficulty(ControllerFacadInterface facad) {
         initComponents();
         setLocationRelativeTo(null);
-        this.Adapter = Adapter;
+        this.facad = facad;
     }
 
     @SuppressWarnings("unchecked")
@@ -216,8 +217,8 @@ public class choose_difficulty extends javax.swing.JFrame {
         }
         int[][] board;
         try {
-            board = Adapter.getGame(c);
-            new the_gaem(board, Adapter).setVisible(true);
+            board = facad.getGame(c);
+            new the_gaem(board, facad).setVisible(true);
             this.dispose();
         } catch (NotFoundException ex) {
             //--------------------------

@@ -1,7 +1,9 @@
 package control_sided;
 
+import Exception.InvalidGame;
 import Exception.InvalidSolutionException;
 import Exception.NotFoundException;
+import java.io.IOException;
 
 public interface Viewable {
 
@@ -11,11 +13,9 @@ public interface Viewable {
 
     void driveGames(Game sourceGame) throws InvalidSolutionException;
     
-        String verifyGame(Game game);
-    /*
-        int[] solveGame(Game game) throws InvalidGame;
+    String verifyGame(Game game);
     
-        void logUserAction(String userAction) throws IOException;
+    int[] solveGame(Game game) throws InvalidGame;
     
-     */
+    void logUserAction(String userAction) throws IOException;
 }

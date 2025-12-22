@@ -1,6 +1,7 @@
 package Generate_Game;
 
 import Files_handler.Folder_Handling;
+import control_sided.DifficultyEnum;
 import java.util.List;
 
 //Singelton Design Pattern
@@ -35,6 +36,7 @@ public class generate {
                 }
             }
             removing += 5 * (k++);
+
             removeRandomCells(puzzle, removing, rp);
             Folder_Handling.get_instance().savePuzzle(puzzle, diff, Folder_Handling.get_instance().getNextFilename(diff));
         }

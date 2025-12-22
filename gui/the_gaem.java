@@ -1,6 +1,12 @@
 package gui;
 
-import adapter.Controllable;
+import Exception.InvalidGame;
+import facad.Controllable;
+import facad.ControllerAdapter;
+import facad.UserAction;
+import control_sided.GameController;
+import facad.ControllerFacadInterface;
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -9,13 +15,14 @@ public class the_gaem extends javax.swing.JPanel {
 
     private JFrame frame;
     private int[][] puzzle;
-    private Controllable Adapter;
+    private ControllerFacadInterface facad;
 
-    public the_gaem(int[][] puzzle, Controllable Adapter) {
+    public the_gaem(int[][] puzzle, ControllerFacadInterface facad) {
         initComponents();
-        this.puzzle = puzzle;
+//        this.puzzle = puzzle;
+        this.setPuzzle(puzzle);
         loadPuzzleIntoTable();
-        this.Adapter = Adapter;
+        this.facad = facad;
     }
 
     private void loadPuzzleIntoTable() {
@@ -58,7 +65,8 @@ public class the_gaem extends javax.swing.JPanel {
         state = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        updateButton1 = new javax.swing.JButton();
+        solve = new javax.swing.JButton();
+        Undo = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 153, 153));
 
@@ -91,6 +99,11 @@ public class the_gaem extends javax.swing.JPanel {
         state.setFillsViewportHeight(true);
         state.setGridColor(new java.awt.Color(255, 255, 255));
         state.setShowGrid(true);
+        state.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                statePropertyChange(evt);
+            }
+        });
         EDIT_TABLE.setViewportView(state);
 
         jButton6.setBackground(new java.awt.Color(102, 102, 102));
@@ -106,13 +119,23 @@ public class the_gaem extends javax.swing.JPanel {
         jLabel11.setFont(new java.awt.Font("Stencil", 1, 36)); // NOI18N
         jLabel11.setText("game");
 
-        updateButton1.setBackground(new java.awt.Color(102, 102, 102));
-        updateButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        updateButton1.setForeground(new java.awt.Color(255, 255, 255));
-        updateButton1.setText("solve");
-        updateButton1.addActionListener(new java.awt.event.ActionListener() {
+        solve.setBackground(new java.awt.Color(102, 102, 102));
+        solve.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        solve.setForeground(new java.awt.Color(255, 255, 255));
+        solve.setText("solve");
+        solve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButton1ActionPerformed(evt);
+                solveActionPerformed(evt);
+            }
+        });
+
+        Undo.setBackground(new java.awt.Color(102, 102, 102));
+        Undo.setFont(Undo.getFont().deriveFont(Undo.getFont().getStyle() | java.awt.Font.BOLD));
+        Undo.setForeground(new java.awt.Color(255, 255, 255));
+        Undo.setText("Undo");
+        Undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UndoActionPerformed(evt);
             }
         });
 
@@ -130,10 +153,12 @@ public class the_gaem extends javax.swing.JPanel {
                         .addComponent(jLabel11))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(updateButton1)
+                        .addComponent(solve)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(updateButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Undo)
+                        .addGap(29, 29, 29)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
@@ -145,11 +170,12 @@ public class the_gaem extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(EDIT_TABLE, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(updateButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(solve, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Undo, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -171,7 +197,7 @@ public class the_gaem extends javax.swing.JPanel {
                 }
             }
         }
-        boolean[][] b = Adapter.verifyGame(board);
+        boolean[][] b = facad.verifyGame(board);
         boolean hasFalse = false;
         for (int r = 0; r < 9; r++) {
             for (int c = 0; c < 9; c++) {
@@ -180,13 +206,15 @@ public class the_gaem extends javax.swing.JPanel {
                 }
             }
         }
-        if(hasFalse)
+        if (hasFalse)
             new verifyy(board, b).setVisible(true);
-        else{
-             JOptionPane.showMessageDialog(this,
-                            "bravo you are abkari!",
-                            "Valid",
-                            JOptionPane.PLAIN_MESSAGE);
+        else {
+            JOptionPane.showMessageDialog(this,
+                    "bravo you are abkari!",
+                    "Valid",
+                    JOptionPane.PLAIN_MESSAGE);
+            frame.dispose();
+            new besmallah().setVisible(true);
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -195,17 +223,95 @@ public class the_gaem extends javax.swing.JPanel {
         new besmallah().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void updateButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButton1ActionPerformed
+    private void solveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_updateButton1ActionPerformed
+        try{
+            this.setPuzzle(facad.solveGame(puzzle));
+            loadPuzzleIntoTable();
+        }
+        catch(InvalidGame e){
+            javax.swing.JOptionPane.showMessageDialog(this, "this game is invalid and impossible to solve, please double check your progress");
+        }
+    }//GEN-LAST:event_solveActionPerformed
+
+    private void UndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoActionPerformed
+        try {
+            facad.undo(puzzle);
+            loadPuzzleIntoTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Nothing to undo",
+                    "Undo",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_UndoActionPerformed
+    
+    private UserAction getAction(){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                int val;
+                try{
+                    val = Integer.parseInt(state.getValueAt(i, j).toString());
+                }
+                catch(java.lang.NumberFormatException e){ //means a cell is empty
+                    continue;
+                }
+                if(val != puzzle[i][j]){
+                    return new UserAction(i, j, val, puzzle);
+                }
+            }
+        }
+        return null; //nothing changed
+    }
+    private void setPuzzle(int[][] puzzle){
+        this.puzzle = puzzle;
+        activateSolve();
+    }
+    private void activateSolve(){
+        int zeros_count = 0;
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(this.puzzle[i][j] == 0)
+                    zeros_count++;
+                if(zeros_count > 5){
+                    this.solve.setEnabled(false);
+                    return;
+                }
+            }
+        }
+        if(zeros_count == 5)
+            this.solve.setEnabled(true);
+        else
+            this.solve.setEnabled(false);
+    }
+    private void statePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_statePropertyChange
+        // TODO add your handling code here:
+        if(!evt.getPropertyName().equals("tableCellEditor")) //make sure that the property change is editing a cell
+            return;
+        UserAction action = this.getAction();
+        if (action != null) { //make sure the user actually changed the value
+            ControllerAdapter adapter = new ControllerAdapter(new GameController());
+            try {
+                System.out.println("calling the adapter");
+                adapter.logUserAction(action);
+                //update puzzle:
+//                this.puzzle = action.getNewBoard();
+                this.setPuzzle(action.getNewBoard());
+            } catch (IOException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "error saving changes! please restart the game");
+            }
+        }
+    }//GEN-LAST:event_statePropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JScrollPane EDIT_TABLE;
+    private javax.swing.JButton Undo;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JButton solve;
     public javax.swing.JTable state;
     private javax.swing.JButton updateButton;
-    private javax.swing.JButton updateButton1;
     // End of variables declaration//GEN-END:variables
 }

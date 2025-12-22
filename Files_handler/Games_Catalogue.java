@@ -1,5 +1,6 @@
 package Files_handler;
 
+import control_sided.DifficultyEnum;
 import java.io.File;
 
 //Singelton Design Pattern
