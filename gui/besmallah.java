@@ -1,10 +1,12 @@
 package gui;
 
-import adapter.Controllable;
-import adapter.ControllerAdapter;
+import facad.Controllable;
+import facad.ControllerAdapter;
 import control_sided.GameController;
 import Exception.InvalidSolutionException;
 import Exception.NotFoundException;
+import facad.ControllerFacad;
+import facad.ControllerFacadInterface;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -29,6 +31,7 @@ public class besmallah extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,7 +41,6 @@ public class besmallah extends javax.swing.JFrame {
 
         jLabel2.setBackground(new java.awt.Color(102, 102, 102));
         jLabel2.setFont(new java.awt.Font("PMingLiU-ExtB", 3, 40)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
         jLabel2.setText("        BESMALLAH");
         jLabel2.setOpaque(true);
 
@@ -78,7 +80,6 @@ public class besmallah extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(102, 102, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(204, 204, 204));
         jButton1.setText("Lets's Play ");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,6 +126,15 @@ public class besmallah extends javax.swing.JFrame {
             .addGap(0, 24, Short.MAX_VALUE)
         );
 
+        jButton2.setBackground(new java.awt.Color(102, 102, 102));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jButton2.setText("change source solution");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -136,17 +146,23 @@ public class besmallah extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
+                        .addGap(69, 69, 69)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(28, 28, 28)))
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addGap(40, 40, 40)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(33, 33, 33)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -170,36 +186,7 @@ public class besmallah extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        Controllable Adapter = new ControllerAdapter(new GameController());
-        boolean[] catalog = Adapter.getCatalog(); // [current, allModesExist]
-        boolean currentGame = catalog[0];
-        boolean allDifficulties = catalog[1];
-        int[][] board = null;
-
-        // 1. If found unfinished game -> get it
-        if (currentGame) {
-            javax.swing.JOptionPane.showMessageDialog(this, "there is unfinished game let's complete first");
-            try {
-                board = Adapter.getGame('i');
-            } catch (NotFoundException ex) {
-                System.getLogger(besmallah.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            }
-            new the_gaem(board,Adapter).setVisible(true);
-            this.dispose();
-            return;
-        }
-
-        // 2. If no unfinished game -> check if all difficulties exist
-        if (allDifficulties) {
-            new choose_difficulty(Adapter).setVisible(true);
-            this.dispose();
-            return;
-        }
-
-        // 3. If not all difficulties available -> ask user for a solved Sudoku file
+    private void getSourceSolution(ControllerFacadInterface facad){
         while (true) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select a solved Sudoku file to generate game difficulties.");
             JTextField jjj = new JTextField();
@@ -215,16 +202,57 @@ public class besmallah extends javax.swing.JFrame {
                 return;
             }
             try {
-                Adapter.driveGames(path);
+                facad.driveGames(path);
                 break;
             } catch (InvalidSolutionException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());
             }
         }
         JOptionPane.showMessageDialog(this, "All difficulty levels generated!");
-        new choose_difficulty(Adapter).setVisible(true);
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        Controllable Adapter = new ControllerAdapter(new GameController());
+        ControllerFacadInterface facad = new ControllerFacad(Adapter);
+        boolean[] catalog = facad.getCatalog(); // [current, allModesExist]
+        boolean currentGame = catalog[0];
+        boolean allDifficulties = catalog[1];
+        int[][] board = null;
+
+        // 1. If found unfinished game -> get it
+        if (currentGame) {
+            javax.swing.JOptionPane.showMessageDialog(this, "there is unfinished game let's complete first");
+            try {
+                board = facad.getGame('i');
+            } catch (NotFoundException ex) {
+                System.getLogger(besmallah.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+            new the_gaem(board,facad).setVisible(true);
+            this.dispose();
+            return;
+        }
+
+        // 2. If no unfinished game -> check if all difficulties exist
+        if (allDifficulties) {
+            new choose_difficulty(facad).setVisible(true);
+            this.dispose();
+            return;
+        }
+
+        // 3. If not all difficulties available -> ask user for a solved Sudoku file
+        this.getSourceSolution(facad);
+        new choose_difficulty(facad).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        Controllable Adapter = new ControllerAdapter(new GameController());
+        ControllerFacadInterface facad = new ControllerFacad(Adapter);
+        this.getSourceSolution(facad);
+        new choose_difficulty(facad).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -250,6 +278,7 @@ public class besmallah extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;

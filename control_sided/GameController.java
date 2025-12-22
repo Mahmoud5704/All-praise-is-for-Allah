@@ -1,5 +1,6 @@
 package control_sided;
 
+import Exception.InvalidGame;
 import Files_handler.CSVReader;
 import Files_handler.Folder_Handling;
 import Files_handler.Games_Catalogue;
@@ -9,6 +10,7 @@ import Generate_Game.generate;
 import java.io.IOException;
 import java.util.ArrayList;
 import verifies.Mod_0;
+import solver.*;
 
 // speak and play with the backend  --->>>> control layer <<<<-----
 public class GameController implements Viewable {
@@ -40,6 +42,7 @@ public class GameController implements Viewable {
         }
         String[] levels = {DifficultyEnum.easy.toString(), DifficultyEnum.medium.toString(), DifficultyEnum.hard.toString()};
         generate.get_instance().generateAllPuzzles(game.getBoard(), levels);
+        Folder_Handling.get_instance().deleteCurrentGame(); //if new files are generated, make sure to delete the current game
     }
 
     @Override
@@ -62,43 +65,15 @@ public class GameController implements Viewable {
         Folder_Handling.get_instance().deleteCurrentGame();
         return "valid";
     }
-    /*
+
     @Override
-    public int[] solveGame(Game game) {
-      
+    public int[] solveGame(Game game) throws InvalidGame{
+      SudokuSolver solver = new SudokuSolver();
+      int[] correctPermutation = solver.solveGame(game.getBoard());
+      return correctPermutation;
     }
-     */
     @Override
     public void logUserAction(String action) throws IOException {
     Folder_Handling.get_instance().logUserAction(action);
-    }
-//FIX THIS EXTRA METHOD
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     @Override
-    public void undo(Game game) throws IOException {
-    Folder_Handling.get_instance().undo(game.getBoard());
     }
 }

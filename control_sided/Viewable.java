@@ -14,10 +14,8 @@ public interface Viewable {
     void driveGames(Game sourceGame) throws InvalidSolutionException;
     
     String verifyGame(Game game);
-    /*
-        int[] solveGame(Game game) throws InvalidGame;
-    */
+    
+    int[] solveGame(Game game) throws InvalidGame;
+    
     void logUserAction(String userAction) throws IOException;
-//REMOVE THE EXTRA METHOD
-    void undo(Game game) throws IOException;
 }

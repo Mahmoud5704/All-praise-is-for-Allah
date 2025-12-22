@@ -80,9 +80,12 @@ public class Folder_Handling {
             System.out.println("Folder is empty: " + folderPath);
             return null;
         }
-
-//        File chosen = files[new Random().nextInt(files.length)];//using  random is new here ????
-        File chosen = 
+        File chosen = null;
+        while(true){ //make sure the log file doesnt get selected
+            if(chosen != null && chosen.getName().contains(".csv"))
+                break;
+            chosen = files[new Random().nextInt(files.length)];//using  random is new here ????
+        }
         int[][] board = new int[9][9];
 
         try (Scanner sc = new Scanner(chosen)) {

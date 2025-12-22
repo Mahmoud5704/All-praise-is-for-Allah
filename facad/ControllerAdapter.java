@@ -1,4 +1,4 @@
-package adapter;
+package facad;
 
 import Exception.InvalidGame;
 import control_sided.Catalog;
@@ -90,7 +90,16 @@ public class ControllerAdapter implements Controllable {
     
         @Override
         public int[][] solveGame(int[][] game) throws InvalidGame {
-            return null;
+            int[] correctPermutation = controller.solveGame(new Game(game));
+            int[][] solution = game.clone();
+            for(int i = 0, k = 0; i < 9; i++){
+                for(int j = 0; j < 9; j++){
+                    if(solution[i][j] == 0){
+                        solution[i][j] = correctPermutation[k++];
+                    }
+                }
+            }
+            return solution;
         }
 
         @Override
@@ -100,9 +109,4 @@ public class ControllerAdapter implements Controllable {
             System.out.println("calling the database...");
             db.savePuzzle(userAction.getNewBoard(), DifficultyEnum.incomplete.name().toLowerCase(), "current.csv");
         }
-        //REMOVE THIS METHODDDDDD
-    @Override
-    public void undo(int[][] board) throws IOException {
-        controller.undo(new Game(board));
-}
 }

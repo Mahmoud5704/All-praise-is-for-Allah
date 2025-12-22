@@ -1,5 +1,5 @@
 
-package adapter;
+package facad;
 public class UserAction {
     private int column;
     private int row;
